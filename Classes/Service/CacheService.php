@@ -51,7 +51,7 @@ class CacheService
     }
 
     /**
-     * @param array $tags
+     * @param string[] $tags
      */
     public function addTagsToPage(array $tags): void
     {
@@ -69,13 +69,15 @@ class CacheService
     }
 
     /**
-     * @param array $tags
+     * @param string[] $tags
      * @throws \InvalidArgumentException
      * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
      */
     public function flushCacheByTags(array $tags): void
     {
-        GeneralUtility::makeInstance(CacheManager::class)
+        /** @var CacheManager $cacheManager */
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        $cacheManager
             ->getCache('cache_pages')
             ->flushByTags($tags);
     }
